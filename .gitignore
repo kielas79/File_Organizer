@@ -1,0 +1,6 @@
+build.bat
+__pycache__/
+build/
+main.spec
+logs/
+settings.json
