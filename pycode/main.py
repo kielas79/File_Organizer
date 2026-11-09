@@ -6,8 +6,12 @@ print("Maro's File Organizer")
 
 default_settings = {
     "extensions": {
+        "Images": [".jpg", ".jpeg", ".jpe", ".jfif", ".jif", ".png", ".gif", ".wbep", ".avif", ".jxl", ".bmp", ".psd", ".ico", 
+                      ".tiff", ".tif", "heic", "heif", ".jxl", 
+                      ".svg", ".ai", ".eps", 
+                      ".raw", ".cr2", ".nef", ".arw", ".dng", ".orf", ".rw2",
+                       ".psd", ".xcf" ],
         "Documents": [""],
-        "Images": [""],
 
     }
 }
