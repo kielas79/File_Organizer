@@ -2,6 +2,7 @@ import os
 import json
 import shutil
 import datetime
+from pathlib import Path
 
 current_folder = os.getcwd()
 print("Current Directory:", current_folder)
@@ -37,6 +38,9 @@ def load_settings():
 
     with open("settings.json", "r") as i:
         return json.load(i)
+
+def organize():
+    hi
 
 print("Maro's File Organizer")   
 while True:
