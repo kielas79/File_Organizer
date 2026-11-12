@@ -21,7 +21,7 @@ default_settings = {
         },
 
     },
-    "folder": current_folder
+    "path_folder": current_folder
 }
 
 def logs():
@@ -39,8 +39,26 @@ def load_settings():
     with open("settings.json", "r") as i:
         return json.load(i)
 
-def organize():
-    hi
+# bad code warning (imma make it better later)
+def default_organize(): # Ok so if i want to add settings, this prob won't work for it.
+    path = default_settings["path_folder"] # so this function is gonna be default only
+    for files in path.iterdir(): # If i do add settings, i'll make it so the
+        if files.is_file(): # Dictionary key is the name.
+            file_ext = files.suffix.lower()
+            if file_ext in default_settings["extensions"]["images"]:
+                folder_name = "images"
+                folder_dest = path / folder_name
+                folder_dest.mkdir(exist_ok=True)
+                shutil.move(str(files), str(folder_dest / files.name))
+                # umm
+                # you know what, i'll just improve it
+def improved_organize():
+    path = default_settings["path_folder"]
+    for files in path.iterdir():
+        if files.is_file():
+            file_ext = files.suffix.lower() #i'll figure the next part tmrrow
+            
+
 
 print("Maro's File Organizer")   
 while True:
