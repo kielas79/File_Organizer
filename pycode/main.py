@@ -2,9 +2,10 @@ import os
 import json
 import shutil
 import datetime
+import traceback
 from pathlib import Path
 
-current_folder = os.getcwd()
+current_folder = Path(__file__).parent
 print("Current Directory:", current_folder)
 default_settings = {
     "extensions": {
@@ -13,18 +14,16 @@ default_settings = {
                     ".svg", ".ai", ".eps", 
                     ".raw", ".cr2", ".nef", ".arw", ".dng", ".orf", ".rw2",
                     ".psd", ".xcf" ],
-        "documents": {
-            "word": [".doc", ".docx", ".odt", ".rtf"],
-            "excel": [".xls", ".xlsx", ".csv", ".ods"],
-            "pdf": ".pdf",
-            "ppt": [".ppt", ".pptx", ".odp"]
+        "word": [".doc", ".docx", ".odt", ".rtf"],
+        "excel": [".xls", ".xlsx", ".csv", ".ods"],
+        "pdf": [".pdf"],
+        "ppt": [".ppt", ".pptx", ".odp"]
         },
 
-    },
     "path_folder": current_folder
 }
 
-def logs():
+def logs(): # Not finished.gonna make (and learn) it later. 11/11/26
     os.makedirs("logs", exist_ok=True)
     current_day = datetime.date.today()
     current_day += ".txt"
@@ -43,7 +42,7 @@ def load_settings():
 def default_organize(): # Ok so if i want to add settings, this prob won't work for it.
     path = default_settings["path_folder"] # so this function is gonna be default only
     for files in path.iterdir(): # If i do add settings, i'll make it so the
-        if files.is_file(): # Dictionary key is the name.
+        if files.is_file(): # Dictionary key is the name. 11/11/26
             file_ext = files.suffix.lower()
             if file_ext in default_settings["extensions"]["images"]:
                 folder_name = "images"
@@ -52,12 +51,22 @@ def default_organize(): # Ok so if i want to add settings, this prob won't work 
                 shutil.move(str(files), str(folder_dest / files.name))
                 # umm
                 # you know what, i'll just improve it
-def improved_organize():
-    path = default_settings["path_folder"]
+def improved_organize(folder_path):
+    path = Path(folder_path)
+    print(f"Current path: {path}")
     for files in path.iterdir():
+        print(files.name)
+        print(files.is_file())
         if files.is_file():
-            file_ext = files.suffix.lower() #i'll figure the next part tmrrow
-            
+            file_ext = files.suffix.lower() #i'll figure the next part tmrrow 11/11/26
+            print(file_ext)
+            for category, extensions in default_settings.items():
+                if file_ext in extensions:
+                    folder_dest = path / category
+                    print(f"moving {files.name} to {folder_dest}")
+                    folder_dest.mkdir(exist_ok=True)
+                    shutil.move(str(files), str(folder_dest / files.name)) #reminder: add logs
+                    break #why does tis not work
 
 
 print("Maro's File Organizer")   
@@ -74,9 +83,13 @@ while True:
                 if option == "1":
                     print("i might work on this next")
                 elif option == "2":
-                    print("")
+                    print("E")
+                    try:
+                        improved_organize(current_folder)
+                    except Exception:
+                        traceback.print_exc()
+                        input("press enter to close")
                 else:
                     print("its 1 OR 2 bro")
         else:
             print("Wrong")
-    
