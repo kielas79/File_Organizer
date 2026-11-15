@@ -6,6 +6,7 @@ import traceback
 from pathlib import Path
 
 current_folder = Path(__file__).parent
+script_path = Path(__file__).resolve()
 print("Current Directory:", current_folder)
 default_settings = {
     "extensions": {
@@ -17,7 +18,9 @@ default_settings = {
         "word": [".doc", ".docx", ".odt", ".rtf"],
         "excel": [".xls", ".xlsx", ".csv", ".ods"],
         "pdf": [".pdf"],
-        "ppt": [".ppt", ".pptx", ".odp"]
+        "ppt": [".ppt", ".pptx", ".odp"],
+        "exe": [".exe"],
+        "videos": [".mkv", "mp4", ".avi", ".mov", ".webm", ".wmv"], 
         },
 
     "path_folder": current_folder
@@ -38,35 +41,22 @@ def load_settings():
     with open("settings.json", "r") as i:
         return json.load(i)
 
-# bad code warning (imma make it better later)
-def default_organize(): # Ok so if i want to add settings, this prob won't work for it.
-    path = default_settings["path_folder"] # so this function is gonna be default only
-    for files in path.iterdir(): # If i do add settings, i'll make it so the
-        if files.is_file(): # Dictionary key is the name. 11/11/26
-            file_ext = files.suffix.lower()
-            if file_ext in default_settings["extensions"]["images"]:
-                folder_name = "images"
-                folder_dest = path / folder_name
-                folder_dest.mkdir(exist_ok=True)
-                shutil.move(str(files), str(folder_dest / files.name))
-                # umm
-                # you know what, i'll just improve it
 def improved_organize(folder_path):
     path = Path(folder_path)
     print(f"Current path: {path}")
     for files in path.iterdir():
         print(files.name)
         print(files.is_file())
-        if files.is_file():
+        if files.is_file() and files.resolve() != script_path:
             file_ext = files.suffix.lower() #i'll figure the next part tmrrow 11/11/26
             print(file_ext)
-            for category, extensions in default_settings.items():
+            for category, extensions in default_settings["extensions"].items():
                 if file_ext in extensions:
                     folder_dest = path / category
                     print(f"moving {files.name} to {folder_dest}")
                     folder_dest.mkdir(exist_ok=True)
                     shutil.move(str(files), str(folder_dest / files.name)) #reminder: add logs
-                    break #why does tis not work
+                    break #why does tis not work. fixed
 
 
 print("Maro's File Organizer")   
